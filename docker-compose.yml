@@ -1,0 +1,28 @@
+version: '2'
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+#  comradeship-app:
+#    container_name: comradeship-app-app
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8020:8020"
+#    depends_on:
+#      - jm-postgres
+
+  comradeship-postgres:
+    container_name: comradeship-app-postgress
+    image: postgres:10.1
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=comradeship
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
