@@ -8,17 +8,23 @@
             <v-btn icon @click="del" small>
                 <v-icon>{{delete_icon}}</v-icon>
             </v-btn>
+            <v-btn icon small>
+                <v-icon>{{like}}</v-icon>
+            </v-btn>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
     import { mdiDelete } from '@mdi/js';
+    import { mdiThumbUpOutline } from '@mdi/js';
+    // import { mdiThumbUp } from '@mdi/js';
 
     export default {
         data() {
             return {
-                delete_icon: mdiDelete
+                delete_icon: mdiDelete,
+                like: mdiThumbUpOutline
             }
         },
         props: ['message', 'editMessage', 'deleteMessage', 'messages'],
