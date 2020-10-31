@@ -3,15 +3,17 @@ package ru.balmukanov.comradeship.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import ru.balmukanov.comradeship.dto.EventType;
+import ru.balmukanov.comradeship.dto.ObjectType;
 import ru.balmukanov.comradeship.entity.Message;
 import ru.balmukanov.comradeship.entity.Views;
 import ru.balmukanov.comradeship.repository.MessageRepository;
+import ru.balmukanov.comradeship.util.WebSocketSender;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 @RestController
 @RequestMapping("message")
@@ -19,12 +21,12 @@ public class MessageController {
 
     private final MessageRepository messageRepository;
 
-    private final SimpMessagingTemplate template;
+    private final BiConsumer<EventType, Message> webSocketSender;
 
     @Autowired
-    public MessageController(MessageRepository messageRepository, SimpMessagingTemplate template) {
+    public MessageController(MessageRepository messageRepository, WebSocketSender webSocketSender) {
         this.messageRepository = messageRepository;
-        this.template = template;
+        this.webSocketSender = webSocketSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
     }
 
     @GetMapping
@@ -42,7 +44,11 @@ public class MessageController {
     @PostMapping
     public Message create(@RequestBody Message message) {
         message.setCreatedAt(LocalDateTime.now());
-        return messageRepository.save(message);
+
+        Message createdMessage = messageRepository.save(message);
+        this.webSocketSender.accept(EventType.CREATE, createdMessage);
+
+        return createdMessage;
     }
 
     @PutMapping("{id}")
@@ -51,21 +57,15 @@ public class MessageController {
             @RequestBody Message message) {
         BeanUtils.copyProperties(message, messageFromDb, "id");
 
-        return this.messageRepository.save(messageFromDb);
+        Message updatedMessage = this.messageRepository.save(messageFromDb);
+        this.webSocketSender.accept(EventType.UPDATE, updatedMessage);
+
+        return updatedMessage;
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Message message) {
         this.messageRepository.delete(message);
-    }
-
-    @MessageMapping("changeMessage")
-    public void change(Message message) {
-        if (message.getId() == 0) {
-            message.setCreatedAt(LocalDateTime.now());
-        }
-
-        Message messageSave = this.messageRepository.save(message);
-        this.template.convertAndSend("/topic/activity", messageSave);
+        this.webSocketSender.accept(EventType.DELETE, message);
     }
 }
