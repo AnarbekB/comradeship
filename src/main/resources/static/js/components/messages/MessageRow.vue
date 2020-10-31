@@ -19,6 +19,7 @@
     import { mdiDelete } from '@mdi/js';
     import { mdiThumbUpOutline } from '@mdi/js';
     // import { mdiThumbUp } from '@mdi/js';
+    import {mapActions} from 'vuex';
 
     export default {
         data() {
@@ -27,13 +28,14 @@
                 like: mdiThumbUpOutline
             }
         },
-        props: ['message', 'editMessage', 'deleteMessage', 'messages'],
+        props: ['message', 'editMessage'],
         methods: {
+            ...mapActions(['removeMessageAction']),
             edit() {
                 this.editMessage(this.message);
             },
             del() {
-                this.deleteMessage(this.message);
+                this.removeMessageAction(this.message);
             }
         }
     }

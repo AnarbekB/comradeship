@@ -14,7 +14,7 @@
                 <a href="/login">Google</a>
             </v-container>
             <v-container v-if="profile">
-                <messages-list :messages="messages"/>
+                <messages-list/>
             </v-container>
         </v-main>
     </v-app>
@@ -22,8 +22,9 @@
 
 <script>
     import MessagesList from 'components/messages/MessagesList.vue'
-    import {addHandler} from "util/websocket";
-    import {mdiExitToApp} from '@mdi/js';
+    import { addHandler } from "util/websocket";
+    import { mapState, mapMutations } from 'vuex';
+    import {mdiExitToApp} from "@mdi/js";
 
     export default {
         components: {
@@ -31,26 +32,23 @@
         },
         data() {
             return {
-                messages: frontendData.messages,
-                profile: frontendData.profile,
                 logout: mdiExitToApp
             }
         },
+        computed: mapState(['profile']),
+        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
         created() {
             addHandler(data => {
                 if (data.objectType === 'MESSAGE') {
-                    const index = this.messages.findIndex(item => item.id === data.body.id);
                     switch (data.eventType) {
                         case 'CREATE':
+                            this.addMessageMutation(data.body);
+                            break;
                         case 'UPDATE':
-                            if (index > -1) {
-                                this.messages.splice(index, 1, data.body);
-                            } else {
-                                this.messages.push(data.body);
-                            }
+                            this.updateMessageMutation(data.body);
                             break;
                         case 'DELETE':
-                            this.messages.splice(index, 1);
+                            this.removeMessageMutation(data.body);
                             break;
                         default:
                             console.error(`Event type unknown: "${data.eventType}"`);

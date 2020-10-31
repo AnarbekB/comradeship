@@ -4,11 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@stomp/stompjs": "^6.0.0",
     "sockjs-client": "^1.5.0",
     "vue": "^2.6.12",
     "vue-resource": "^1.5.1",
-    "vuetify": "^2.3.16"
+    "vuetify": "^2.3.16",
+    "vuex": "^3.5.1"
   },
   "scripts": {
     "start": "webpack serve"
