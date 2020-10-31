@@ -1,5 +1,5 @@
 <template>
-    <v-app class="main-app">
+    <v-app>
         <v-app-bar app>
             <v-toolbar-title>Comradeship</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -51,7 +51,4 @@
 </script>
 
 <style>
-    .main-app {
-        color: maroon;
-    }
 </style>
