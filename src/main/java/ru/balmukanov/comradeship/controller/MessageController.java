@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.web.bind.annotation.*;
 import ru.balmukanov.comradeship.dto.MessageDto;
 import ru.balmukanov.comradeship.entity.Message;
-import ru.balmukanov.comradeship.entity.Views;
+import ru.balmukanov.comradeship.util.Views;
 import ru.balmukanov.comradeship.service.MessageService;
 import ru.balmukanov.comradeship.transformer.MessageTransformer;
 

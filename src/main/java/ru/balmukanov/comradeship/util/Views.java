@@ -1,4 +1,4 @@
-package ru.balmukanov.comradeship.entity;
+package ru.balmukanov.comradeship.util;
 
 public final class Views {
     public interface Id {}

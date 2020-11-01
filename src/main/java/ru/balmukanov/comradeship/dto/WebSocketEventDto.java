@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.balmukanov.comradeship.entity.Views;
+import ru.balmukanov.comradeship.util.Views;
 
 @Data
 @AllArgsConstructor

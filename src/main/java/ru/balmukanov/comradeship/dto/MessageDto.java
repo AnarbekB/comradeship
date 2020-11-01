@@ -3,10 +3,8 @@ package ru.balmukanov.comradeship.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
-import ru.balmukanov.comradeship.entity.Link;
-import ru.balmukanov.comradeship.entity.Views;
+import ru.balmukanov.comradeship.util.Views;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data

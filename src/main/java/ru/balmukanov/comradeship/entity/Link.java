@@ -1,6 +1,5 @@
 package ru.balmukanov.comradeship.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,18 +18,14 @@ public class Link {
     private Message message;
 
     @Column(nullable = false)
-    @JsonView(Views.FullName.class)
     private String link;
 
     @Column()
-    @JsonView(Views.FullName.class)
     private String title;
 
     @Column()
-    @JsonView(Views.FullName.class)
     private String description;
 
     @Column()
-    @JsonView(Views.FullName.class)
     private String cover;
 }
