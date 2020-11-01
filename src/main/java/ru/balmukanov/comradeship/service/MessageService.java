@@ -40,7 +40,7 @@ public class MessageService {
         message.setCreatedAt(LocalDateTime.now());
 
         try {
-            this.metaParser.fillMeta(message);
+            message = this.metaParser.fillMeta(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class MessageService {
         BeanUtils.copyProperties(message, messageFromDb, "id");
 
         try {
-            this.metaParser.fillMeta(message);
+            messageFromDb = this.metaParser.fillMeta(message);
         } catch (IOException e) {
             e.printStackTrace();
         }

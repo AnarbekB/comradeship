@@ -9,6 +9,7 @@ import ru.balmukanov.comradeship.dto.MetaDto;
 import ru.balmukanov.comradeship.entity.Link;
 import ru.balmukanov.comradeship.entity.Message;
 import ru.balmukanov.comradeship.repository.LinkRepository;
+import ru.balmukanov.comradeship.repository.MessageRepository;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -24,11 +25,14 @@ public class MetaParser {
 
     private final LinkRepository linkRepository;
 
-    public MetaParser(LinkRepository linkRepository) {
+    private final MessageRepository messageRepository;
+
+    public MetaParser(LinkRepository linkRepository, MessageRepository messageRepository) {
         this.linkRepository = linkRepository;
+        this.messageRepository = messageRepository;
     }
 
-    void fillMeta(Message message) throws IOException {
+    public Message fillMeta(Message message) throws IOException {
         String text = message.getText();
 
         Matcher matcher = URL_REGEX.matcher(text);
@@ -38,7 +42,7 @@ public class MetaParser {
 
             Link link = new Link();
             link.setLink(url);
-            message.setLink(link);
+            link.setMessage(message);
 
             if (matcher.find()) {
                 link.setCover(url);
@@ -51,7 +55,12 @@ public class MetaParser {
             }
 
             this.linkRepository.save(link);
+
+            message.setLink(link);
+            this.messageRepository.save(message);
         }
+
+        return message;
     }
 
     private MetaDto getMeta(String url) throws IOException {

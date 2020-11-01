@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.balmukanov.comradeship.dto.UserDto;
 import ru.balmukanov.comradeship.entity.User;
-import ru.balmukanov.comradeship.repository.MessageRepository;
+import ru.balmukanov.comradeship.service.MessageService;
 
 import java.util.HashMap;
 
@@ -16,13 +16,13 @@ import java.util.HashMap;
 @RequestMapping("/")
 public class MainController {
 
-    private final MessageRepository messageRepository;
+    private final MessageService messageService;
 
     @Value("${spring.profile.active}")
     private String profile;
 
-    public MainController(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
+    public MainController(MessageService messageService) {
+        this.messageService = messageService;
     }
 
     @GetMapping
@@ -31,7 +31,7 @@ public class MainController {
 
         if (user != null) {
             data.put("profile", UserDto.fromEntity(user));
-            data.put("messages", this.messageRepository.findAll());
+            data.put("messages", this.messageService.all());
         }
 
         model.addAttribute("frontendData", data);
