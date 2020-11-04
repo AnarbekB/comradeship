@@ -12,6 +12,8 @@ public class MessageTransformer {
         messageDto.setId(message.getId());
         messageDto.setCreatedAt(message.getCreatedAt());
         messageDto.setText(message.getText());
+        messageDto.setAuthor(message.getAuthor());
+        messageDto.setComments(message.getComments());
 
         if (message.getLink() != null) {
             messageDto.setLink(message.getLink().getLink());

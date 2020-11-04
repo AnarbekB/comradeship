@@ -6,6 +6,7 @@ import ru.balmukanov.comradeship.dto.EventType;
 import ru.balmukanov.comradeship.dto.MessageDto;
 import ru.balmukanov.comradeship.dto.ObjectType;
 import ru.balmukanov.comradeship.entity.Message;
+import ru.balmukanov.comradeship.entity.User;
 import ru.balmukanov.comradeship.util.Views;
 import ru.balmukanov.comradeship.exceptions.NotFoundException;
 import ru.balmukanov.comradeship.repository.MessageRepository;
@@ -32,12 +33,13 @@ public class MessageService {
             MetaParser metaParser
     ) {
         this.messageRepository = messageRepository;
-        this.webSocketSender = webSocketSender.getSender(ObjectType.MESSAGE, Views.FullName.class);
+        this.webSocketSender = webSocketSender.getSender(ObjectType.MESSAGE, Views.FullMessage.class);
         this.metaParser = metaParser;
     }
 
-    public MessageDto create(Message message) {
+    public MessageDto create(Message message, User user) {
         message.setCreatedAt(LocalDateTime.now());
+        message.setAuthor(user);
 
         try {
             message = this.metaParser.fillMeta(message);

@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,4 +22,11 @@ public class Message implements Serializable {
 
     @OneToOne(mappedBy = "message")
     private Link link;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User author;
+
+    @OneToMany(mappedBy = "message", orphanRemoval = true)
+    private List<Comment> comments;
 }

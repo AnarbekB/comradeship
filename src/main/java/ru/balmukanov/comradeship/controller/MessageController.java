@@ -1,9 +1,11 @@
 package ru.balmukanov.comradeship.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.balmukanov.comradeship.dto.MessageDto;
 import ru.balmukanov.comradeship.entity.Message;
+import ru.balmukanov.comradeship.entity.User;
 import ru.balmukanov.comradeship.util.Views;
 import ru.balmukanov.comradeship.service.MessageService;
 import ru.balmukanov.comradeship.transformer.MessageTransformer;
@@ -26,14 +28,17 @@ public class MessageController {
     }
 
     @GetMapping("{id}")
-    @JsonView(Views.FullName.class)
+    @JsonView(Views.FullMessage.class)
     public MessageDto getOne(@PathVariable("id") Message message) {
         return MessageTransformer.toDto(message);
     }
 
     @PostMapping
-    public MessageDto create(@RequestBody Message message) {
-        return this.messageService.create(message);
+    public MessageDto create(
+            @RequestBody Message message,
+            @AuthenticationPrincipal User user
+    ) {
+        return this.messageService.create(message, user);
     }
 
     @PutMapping("{id}")

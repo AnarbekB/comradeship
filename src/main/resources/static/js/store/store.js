@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex .Store({
     state: {
-        messages: frontendData.messages,
+        messages,
         profile: frontendData.profile
     },
     getters: {
