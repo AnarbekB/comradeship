@@ -38,5 +38,5 @@ public class MessageDto {
     private User author;
 
     @JsonView(Views.FullMessage.class)
-    private List<Comment> comments;
+    private List<CommentDto> comments;
 }

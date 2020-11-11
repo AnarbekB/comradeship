@@ -13,7 +13,7 @@ public class MessageTransformer {
         messageDto.setCreatedAt(message.getCreatedAt());
         messageDto.setText(message.getText());
         messageDto.setAuthor(message.getAuthor());
-        messageDto.setComments(message.getComments());
+        messageDto.setComments(CommentTransformer.toDtoList(message.getComments()));
 
         if (message.getLink() != null) {
             messageDto.setLink(message.getLink().getLink());

@@ -2,6 +2,7 @@ package ru.balmukanov.comradeship.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ToString(of = {"id", "name"})
 @Data
 @Entity
 @Table(name = "users")

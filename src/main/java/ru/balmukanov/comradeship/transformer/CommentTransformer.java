@@ -12,7 +12,8 @@ public class CommentTransformer {
         commentDto.setId(comment.getId());
         commentDto.setAuthor(comment.getAuthor());
         commentDto.setText(comment.getText());
-        commentDto.setMessage(comment.getMessage());
+        //todo решить проблему с циклическими ссылками
+        //commentDto.setMessage(MessageTransformer.toDto(comment.getMessage()));
 
         return commentDto;
     }

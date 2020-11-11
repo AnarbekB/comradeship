@@ -14,7 +14,7 @@ public class CommentDto {
     @JsonView(Views.IdName.class)
     private String text;
 
-    private Message message;
+    private MessageDto message;
 
     @JsonView(Views.FullMessage.class)
     private User author;

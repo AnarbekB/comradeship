@@ -1,5 +1,6 @@
 package ru.balmukanov.comradeship.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -39,6 +40,7 @@ public class MainController {
     }
 
     @GetMapping
+    @JsonView(Views.FullMessage.class)
     public String main(Model model, @AuthenticationPrincipal User user) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
 
@@ -47,6 +49,8 @@ public class MainController {
 
             String messages = this.writer.writeValueAsString(this.messageService.all());
             model.addAttribute("messages", messages);
+        } else {
+            model.addAttribute("messages", "[]");
         }
 
         model.addAttribute("frontendData", data);
